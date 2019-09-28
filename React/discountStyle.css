@@ -1,0 +1,29 @@
+.btn-default {
+  background-color: #56a349;
+  color: #fff;
+}
+
+.btn-default:hover {
+  background: rgba(86, 163, 73, 0.5);
+}
+
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  background-color: hsl(111, 38%, 46%);
+  color: #fff;
+  border-color: #56a349;
+}
+
+.col-md-3 {
+  padding: 0px 10px;
+}
+
+.container {
+  margin-top: 70px;
+}
+
+.couponCode {
+  margin-bottom: 1rem;
+}
