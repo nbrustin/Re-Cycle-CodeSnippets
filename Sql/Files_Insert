@@ -1,0 +1,64 @@
+﻿USE [C76_Recycle]
+GO
+/****** Object:  StoredProcedure [dbo].[Files_Insert]    Script Date: 9/28/2019 1:49:51 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [dbo].[Files_Insert]
+
+	@Name nvarchar(50)
+	,@Url nvarchar(255)
+	,@EntityTypeId int
+	,@FileTypeId int
+	,@CreatedBy int
+	,@Id int OUTPUT
+
+/*
+
+	Declare @Id int;
+
+	Declare		@Name nvarchar(50) = 'weird'
+				,@EntityTypeId int = 6
+				,@Url nvarchar(255) = 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2010/6/8/0/FNM_070110-Copy-That-002_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382539317193.jpeg'
+				,@FileTypeId int = 3
+				,@CreatedBy int = 2
+				
+	Execute dbo.Files_Insert
+				@Name
+				,@Url
+				,@EntityTypeId 
+				,@FileTypeId
+				,@CreatedBy
+				,@Id OUTPUT
+
+				Select @Id
+
+				Select*
+				From dbo.Files
+				Where Id=@Id
+
+*/
+AS
+
+BEGIN
+
+INSERT INTO dbo.Files
+			([Name]
+			,[EntityTypeId]
+			,[Url]
+			,[FileTypeId]
+			,[CreatedBy])
+
+VALUES
+			(@Name
+			,@EntityTypeId 
+			,@Url
+			,@FileTypeId
+			,@CreatedBy)
+
+SET @Id = Scope_Identity()
+
+END
+
+
