@@ -1,0 +1,113 @@
+﻿USE [C76_Recycle]
+GO
+/****** Object:  StoredProcedure [dbo].[Products_Filter_Master]    Script Date: 9/28/2019 1:46:14 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [dbo].[Products_Filter_Master]
+
+		@ProductTypeId INT = null
+		,@Manufacturer NVARCHAR(100) = null
+		,@PriceFrom DECIMAL(18,2) = null
+		,@PriceTo DECIMAL(18,2) = null
+		,@pageIndex INT
+		,@pageSize INT
+
+AS
+
+/*
+		Declare
+
+		@ProductTypeId INT = 0
+		,@Manufacturer NVARCHAR(100) = 'Cannon'
+		,@PriceFrom DECIMAL(18,2) = 0
+		,@PriceTo DECIMAL(18,2) = 0
+		,@pageIndex INT = 0
+		,@pageSize INT = 500
+		
+		EXECUTE [dbo].[Products_Filter_Master]
+				@ProductTypeId
+					,@Manufacturer
+					,@PriceFrom
+					,@PriceTo
+					,@pageIndex
+					,@pageSize
+	
+*/
+
+BEGIN
+
+		--filter by all--
+		IF ((@ProductTypeId IS NOT NULL AND @ProductTypeId >0) AND (@PriceTo > 0) AND @Manufacturer IS NOT NULL) BEGIN
+
+			EXECUTE [dbo].[Products_Filter_ByProductType_ByPrice_ByManufacturer]
+					@ProductTypeId
+					,@Manufacturer
+					,@PriceFrom
+					,@PriceTo
+					,@pageIndex
+					,@pageSize
+						
+
+		--filter by producttypeId only--
+		END ELSE IF ((@ProductTypeId IS NOT NULL AND @ProductTypeId >0) AND (@PriceTo = 0 OR @PriceTo IS NULL) AND @Manufacturer IS NULL)BEGIN
+
+			EXECUTE [dbo].[Products_Filter_ByProductTypeId]
+					@ProductTypeId
+					,@pageIndex
+					,@pageSize
+
+		--filter by producttypeId AND price
+		END ELSE IF ((@ProductTypeId IS NOT NULL AND @ProductTypeId >0) AND (@PriceTo >0) AND @Manufacturer IS NULL) BEGIN
+
+			EXECUTE [dbo].[Products_Filter_ByProductTypeId_ByPrice]
+					@ProductTypeId
+					,@PriceFrom
+					,@PriceTo
+					,@pageIndex
+					,@pageSize
+
+		--filter by productTypeId AND manufacturer
+		END ELSE IF ((@ProductTypeId IS NOT NULL AND @ProductTypeId >0) AND (@ProductTypeId >0) AND (@PriceTo = 0 OR @PriceTo IS NULL) AND @Manufacturer IS NOT NULL)BEGIN
+
+			EXECUTE [dbo].[Products_Filter_ByProductTypeId_ByManufacturer]
+					@ProductTypeId
+					,@Manufacturer
+					,@pageIndex
+					,@pageSize
+
+		--filter by Price only--
+		END ELSE IF ((@ProductTypeId IS NULL OR @ProductTypeId = 0) AND (@PriceTo >0) AND @Manufacturer IS NULL) BEGIN
+
+			EXECUTE [dbo].[Products_Filter_ByPrice]
+					@PriceFrom
+					,@PriceTo
+					,@pageIndex
+					,@pageSize
+
+		--filter by Price AND manufacturer--
+		END ELSE IF ((@ProductTypeId IS NULL OR @ProductTypeId = 0) AND (@PriceTo >0) AND @Manufacturer IS NOT NULL) BEGIN
+
+			EXECUTE [dbo].[Products_Filter_ByPrice_ByManufacturer]
+					@Manufacturer
+					,@PriceFrom
+					,@PriceTo
+					,@pageIndex
+					,@pageSize
+
+		--filter by manufacturer only--
+		END	ELSE BEGIN 
+
+				EXECUTE [dbo].[Products_Filter_ByManufacturer]
+					@Manufacturer
+					,@pageIndex
+					,@pageSize
+
+					END
+					
+
+END
+
+
+
