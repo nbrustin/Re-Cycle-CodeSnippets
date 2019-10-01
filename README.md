@@ -8,7 +8,7 @@ React:
 --Checkout with stripe and USPS integration
 --Discounts
 
-Visual Studio: 
+C#: 
 --Vendor api controllers
 
 SQL: 
