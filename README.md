@@ -11,6 +11,7 @@ React:
 Visual Studio: 
 --Vendor api controllers
 
-Sql: 
---Built the Master Procedure which filters based on type, material, size, and/or color. 
---
+SQL: 
+--Built a filter procedure that filters based on type, material, size, and/or color
+
+
